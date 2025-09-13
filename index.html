@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Script Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(to bottom right, #000000, #8B0000);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .notification {
+      position: fixed;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 100, 0, 0.85);
+      color: #00ff88;
+      padding: 12px 28px;
+      border-radius: 8px;
+      box-shadow: 0 0 18px #00ff88, 0 0 6px #00ff88;
+      font-size: 1em;
+      white-space: nowrap;
+      opacity: 0;
+      transition: top 0.4s ease, opacity 0.4s ease;
+      z-index: 9999;
+      backdrop-filter: blur(4px);
+    }
+
+    .notification.show {
+      top: 20px;
+      opacity: 1;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 10px;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: rgba(0, 0, 0, 0.45);
+      border-radius: 14px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+      width: 200px;
+      padding: 20px 14px;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: transform 0.3s ease;
+    }
+
+    .card h2 {
+      font-size: 1.6em;
+      margin-bottom: 18px;
+      color: #ffffff;
+      text-shadow: 0 0 14px rgba(255, 255, 255, 1),
+                   0 0 26px rgba(255, 255, 255, 0.95);
+    }
+
+    .card button {
+      background-color: #555555;
+      color: #ffffff;
+      border: none;
+      padding: 14px 0;
+      width: 100%;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease, color 0.15s ease, text-shadow 0.2s ease;
+      text-shadow: 0 0 10px #ffffff, 0 0 18px #ffffff, 0 0 26px #ffffff;
+    }
+
+    .card button.green-glow {
+      color: #00ff88 !important;
+      text-shadow: 0 0 14px #00ff88, 0 0 24px #00ff88, 0 0 34px #00ff88;
+    }
+
+    .card button:hover {
+      background-color: #666666;
+    }
+
+    @media (max-width: 700px) {
+      .card {
+        width: 80%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notification" id="notification">Script Copied To Clipboard</div>
+
+  <div class="container">
+    <div class="card">
+      <h2>MurderMystery</h2>
+      <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazcx/Loader/main/MurderMystery%202'))()`, this)">Copy Script</button>
+    </div>
+    <div class="card">
+      <h2>Grow A Garden</h2>
+      <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazcx/Loader/refs/heads/main/GrowAGarden'))()`, this)">Copy Script</button>
+    </div>
+    <div class="card">
+      <h2>Adopt Me</h2>
+      <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazcx/Loader/main/AdoptMe'))()`, this)">Copy Script</button>
+    </div>
+  </div>
+
+  <script>
+    let isNotificationVisible = false;
+
+    function copyToClipboard(text, button) {
+      if (isNotificationVisible) return;
+
+      navigator.clipboard.writeText(text).then(function () {
+        const card = button.closest('.card');
+        card.style.transform = 'scale(1.08)';
+        setTimeout(() => {
+          card.style.transform = 'scale(1)';
+        }, 150);
+
+        button.classList.add('green-glow');
+        setTimeout(() => {
+          button.classList.remove('green-glow');
+        }, 600);
+
+        const notification = document.getElementById('notification');
+        isNotificationVisible = true;
+        notification.classList.add('show');
+        setTimeout(() => {
+          notification.classList.remove('show');
+          isNotificationVisible = false;
+        }, 1000);
+      });
+    }
+  </script>
+
+</body>
+</html>
