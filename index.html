@@ -57,17 +57,16 @@ body {
 
 .card {
   background-color: rgba(0, 0, 0, 0.55);
-  border-radius: 18px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 320px;
   padding: 25px 20px;
   text-align: center;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 0 15px rgba(255,0,0,0.7), 0 0 25px rgba(255,0,0,0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-  border: 3px solid;
-  border-image-slice: 1;
-  border-image-source: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #00ff88);
-  animation: float 4s ease-in-out infinite, borderGlow 6s linear infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: float 4s ease-in-out infinite;
 }
 
 .card h2 {
@@ -98,7 +97,7 @@ body {
 }
 
 .card button:active {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 @keyframes float {
@@ -106,14 +105,6 @@ body {
   25% { transform: translateY(-6px) translateX(-3px); }
   50% { transform: translateY(4px) translateX(2px); }
   75% { transform: translateY(-2px) translateX(1px); }
-}
-
-@keyframes borderGlow {
-  0% { border-image-source: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #00ff88);}
-  25% { border-image-source: linear-gradient(45deg, #ff00ff, #00ffff, #00ff88, #ff0000);}
-  50% { border-image-source: linear-gradient(45deg, #00ffff, #00ff88, #ff0000, #ff00ff);}
-  75% { border-image-source: linear-gradient(45deg, #00ff88, #ff0000, #ff00ff, #00ffff);}
-  100% { border-image-source: linear-gradient(45deg, #ff0000, #ff00ff, #00ffff, #00ff88);}
 }
 
 @media (max-width: 700px) {
@@ -169,17 +160,9 @@ function copyToClipboard(text, button) {
 
   navigator.clipboard.writeText(text).then(function () {
     const card = button.closest('.card');
+    card.style.transform = 'scale(1.12)';
+    setTimeout(() => { card.style.transform = ''; }, 150);
 
-    // 卡片弹跳 + 边框闪光
-    card.style.transition = 'transform 0.15s ease, box-shadow 0.15s ease';
-    card.style.transform = 'scale(1.15)';
-    card.style.boxShadow = '0 0 30px #00ff88, 0 0 50px #00ff88, 0 0 70px #00ff88';
-    setTimeout(() => {
-      card.style.transform = '';
-      card.style.boxShadow = '';
-    }, 200);
-
-    // 按钮发光
     button.classList.add('green-glow');
     setTimeout(() => { button.classList.remove('green-glow'); }, 600);
 
