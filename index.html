@@ -4,396 +4,503 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Ankazcx's Script Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --main-red: #ff0000;
-  --dark-red: #8B0000;
-  --glow-green: #00ff88;
-  --dark-bg: #0a0a0a;
-  --card-bg: rgba(10, 10, 10, 0.65);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
   color: #fff;
-  min-height: 100svh; /* 使用svh确保在移动设备上占满视窗 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  min-height: 100vh;
   overflow-x: hidden;
-  /* 动态渐变背景 */
-  background: linear-gradient(45deg, #000000, var(--dark-red), #000000, #400000);
-  background-size: 400% 400%;
-  animation: gradient-flow 15s ease infinite;
   position: relative;
 }
 
-/* 背景网格叠层 */
-body::before {
-  content: '';
+/* Animated Background */
+.bg-animation {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image:
-    linear-gradient(to right, rgba(255, 0, 0, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: grid-move 20s linear infinite;
   z-index: 0;
-  opacity: 0.5;
+  overflow: hidden;
 }
 
-/* --- 酷炫的通知栏 --- */
+.bg-animation::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 40% 20%, rgba(139, 0, 0, 0.12) 0%, transparent 50%);
+  animation: bgRotate 20s linear infinite;
+}
+
+@keyframes bgRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Floating particles */
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  animation: particleFloat 15s infinite;
+}
+
+@keyframes particleFloat {
+  0%, 100% { 
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateY(-100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Header */
+.header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 60px 20px 40px;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3em;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #ff6b6b 50%, #8B0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+  animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+.tagline {
+  font-size: 1.1em;
+  color: #999;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Notification */
 .notification {
   position: fixed;
-  top: -100px; /* 初始位置更远 */
+  top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 20, 0, 0.7);
-  color: var(--glow-green);
-  padding: 14px 30px;
-  border-radius: 10px;
-  border: 1px solid var(--glow-green);
-  box-shadow: 0 0 25px var(--glow-green), inset 0 0 10px rgba(0, 255, 136, 0.5);
-  font-size: 1.1em;
-  font-weight: bold;
+  background: linear-gradient(135deg, rgba(0, 150, 0, 0.95), rgba(0, 200, 100, 0.95));
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 50px;
+  box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4),
+              0 0 20px rgba(0, 255, 136, 0.2);
+  font-size: 1em;
+  font-weight: 600;
   white-space: nowrap;
   opacity: 0;
-  transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   z-index: 9999;
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(0, 255, 136, 0.3);
 }
 
 .notification.show {
-  top: 25px;
+  top: 30px;
   opacity: 1;
 }
 
-/* --- 主标题和故障效果 --- */
-.main-title {
-  font-size: 3em;
-  font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 0 10px #fff, 0 0 20px var(--main-red), 0 0 30px var(--main-red);
-  margin-bottom: 40px;
-  /* 应用故障效果 */
-  position: relative;
-  animation: fade-in 1s 0.2s ease-out forwards;
-  opacity: 0;
+.notification::before {
+  content: '✓';
+  margin-right: 10px;
+  font-size: 1.2em;
 }
 
-.glitch {
-  position: relative;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-               0 0 20px rgba(255, 0, 0, 0.7);
-}
-
-/* 故障效果伪元素 */
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  clip-path: inset(50% 0 50% 0); /* 默认隐藏 */
-}
-
-.glitch::before {
-  text-shadow: -2px 0 var(--main-red);
-  animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  text-shadow: 2px 0 var(--glow-green);
-  animation: glitch-anim-2 2s infinite linear alternate-reverse;
-}
-
-
-/* --- 容器与卡片 --- */
+/* Container */
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  width: 100%;
-  max-width: 450px;
-  padding: 30px 15px;
-  box-sizing: border-box;
-  z-index: 1; /* 确保在网格之上 */
-}
-
-.card {
-  background-color: var(--card-bg);
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
-  width: 100%;
-  max-width: 350px;
-  padding: 30px 25px;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  overflow: hidden; /* 隐藏辉光边框的溢出 */
-  /* 加载动画 */
-  animation: fade-in-up 0.8s ease-out forwards;
-  opacity: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
 }
 
-/* 为卡片添加交错加载动画 */
-.card:nth-of-type(1) { animation-delay: 0.4s; }
-.card:nth-of-type(2) { animation-delay: 0.6s; }
-.card:nth-of-type(3) { animation-delay: 0.8s; }
+/* Card */
+.card {
+  background: rgba(20, 20, 20, 0.7);
+  border-radius: 24px;
+  padding: 40px 30px;
+  text-align: center;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
 
-
-/* 卡片辉光边框 (悬停时显示) */
 .card::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--main-red), var(--dark-red), var(--main-red));
-  background-size: 200% 200%;
-  animation: gradient-flow 3s ease infinite;
-  z-index: -1;
-  filter: blur(15px);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.6);
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
 }
 
 .card:hover::before {
-  opacity: 0.8;
+  left: 100%;
 }
 
-.card h2 {
-  font-size: 1.8em;
-  margin-top: 0;
-  margin-bottom: 25px;
-  color: #ffffff;
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 0 20px 60px rgba(255, 0, 0, 0.3),
+              0 0 30px rgba(255, 107, 107, 0.2);
 }
 
-/* --- 科技感按钮 --- */
-.card button {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffcccc; /* 初始为淡红色 */
-  border: 2px solid rgba(255, 100, 100, 0.3);
-  padding: 15px 0;
-  width: 100%;
-  border-radius: 12px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.2em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-shadow: none;
-  position: relative;
-  overflow: hidden; /* 配合::before伪元素 */
-}
-
-.card button::before {
-  content: 'COPY SCRIPT';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.card-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #ff6b6b, #8B0000);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  background: linear-gradient(90deg, transparent, var(--main-red), transparent);
-  background-size: 200% 100%;
-  background-position: 200% 0;
-  text-shadow: 0 0 10px #fff, 0 0 20px var(--main-red);
+  font-size: 2.5em;
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.card h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+}
+
+.card-description {
+  color: #aaa;
+  font-size: 0.95em;
+  margin-bottom: 25px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.card button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff3838 50%, #c92a2a 100%);
+  color: #ffffff;
+  border: none;
+  padding: 18px 40px;
+  width: 100%;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4),
+              0 0 20px rgba(255, 107, 107, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.card button::after {
+  content: '→';
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
   opacity: 0;
-  transition: opacity 0.3s ease, background-position 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 .card button:hover {
-  border-color: var(--main-red);
-  color: transparent; /* 隐藏原始文字 */
-  box-shadow: 0 0 25px rgba(255, 0, 0, 0.7);
+  background: linear-gradient(135deg, #ff8787 0%, #ff5252 50%, #e03131 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5),
+              0 0 30px rgba(255, 107, 107, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  letter-spacing: 3px;
 }
 
 .card button:hover::before {
+  left: 100%;
+}
+
+.card button:hover::after {
   opacity: 1;
-  background-position: -100% 0; /* 动画滑过 */
-}
-
-/* 点击时的绿色辉光效果 (来自原JS) */
-.card button.green-glow {
-  background-color: rgba(0, 255, 136, 0.2);
-  border-color: var(--glow-green);
-  color: var(--glow-green) !important; /* 强制显示绿色 */
-  text-shadow: 0 0 20px var(--glow-green), 0 0 30px var(--glow-green);
-  box-shadow: 0 0 30px var(--glow-green);
-}
-
-/* 覆盖 :hover::before 效果 */
-.card button.green-glow::before {
-  opacity: 0;
+  right: 25px;
 }
 
 .card button:active {
-  transform: scale(0.97); /* 更真实的按压感 */
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
 }
 
-
-/* --- 关键帧动画 --- */
-
-/* 背景渐变 */
-@keyframes gradient-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.card button.success {
+  background: linear-gradient(135deg, #00c851, #00ff88);
+  box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5),
+              0 0 30px rgba(0, 255, 136, 0.3);
+  animation: successPulse 0.6s ease;
 }
 
-/* 背景网格 */
-@keyframes grid-move {
-  0% { background-position: 0 0; }
-  100% { background-position: 100px 100px; }
+.card button.success::after {
+  content: '✓';
+  right: 25px;
+  opacity: 1;
 }
 
-/* 故障效果动画 */
-@keyframes glitch-anim-1 {
-  0% { clip-path: inset(30% 0 60% 0); }
-  20% { clip-path: inset(80% 0 10% 0); }
-  40% { clip-path: inset(5% 0 85% 0); }
-  60% { clip-path: inset(70% 0 20% 0); }
-  80% { clip-path: inset(40% 0 45% 0); }
-  100% { clip-path: inset(90% 0 5% 0); }
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
-@keyframes glitch-anim-2 {
-  0% { clip-path: inset(65% 0 25% 0); }
-  25% { clip-path: inset(15% 0 75% 0); }
-  50% { clip-path: inset(80% 0 10% 0); }
-  75% { clip-path: inset(30% 0 60% 0); }
-  100% { clip-path: inset(50% 0 40% 0); }
+/* Footer */
+.footer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 0.9em;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* 页面加载动画 */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.footer-links {
+  margin-top: 15px;
 }
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(30px); }
+
+.footer-links a {
+  color: #999;
+  text-decoration: none;
+  margin: 0 15px;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #ff6b6b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 2em;
+  }
+  
+  .container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 15px 60px;
+  }
+  
+  .card {
+    padding: 30px 20px;
+  }
+  
+  .card h2 {
+    font-size: 1.5em;
+  }
+  
+  .card button {
+    padding: 14px 30px;
+    font-size: 1em;
+  }
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* --- 响应式布局 --- */
-@media (max-width: 768px) {
-  .main-title {
-    font-size: 2.2em;
-    margin-bottom: 30px;
-  }
-  .container {
-    max-width: 95%;
-    gap: 25px;
-    padding: 20px 10px;
-  }
-  .card h2 {
-    font-size: 1.6em;
-  }
-  .card button {
-    font-size: 1.1em;
-  }
+.card {
+  animation: fadeIn 0.6s ease forwards;
 }
 
-/* 桌面端布局: 水平排列 */
-@media (min-width: 769px) {
-  .container {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    max-width: 1200px;
-    gap: 35px;
-  }
-  .card {
-    max-width: 340px; /* 限制最大宽度，以便一行放多个 */
-  }
-}
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
 </style>
 </head>
 <body>
 
-<div class="notification" id="notification">Script Copied To Clipboard</div>
+<div class="bg-animation"></div>
+<div class="grid-overlay"></div>
 
-<h1 class="main-title glitch" data-text="ANKAZCX'S SCRIPT HUB">ANKAZCX'S SCRIPT HUB</h1>
+<div class="header">
+  <div class="logo">ANKAZCX</div>
+  <div class="tagline">Premium Script Collection</div>
+</div>
+
+<div class="notification" id="notification">Script Copied Successfully</div>
 
 <div class="container">
   <div class="card">
-    <h2 class="glitch" data-text="Steal A Brainrot">Steal A Brainrot</h2>
+    <div class="card-icon">🧠</div>
+    <h2>Steal A Brainrot</h2>
+    <p class="card-description">Advanced automation script with powerful features for enhanced gameplay experience</p>
     <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/StealABrainrot'))()`, this)">Copy Script</button>
   </div>
+  
   <div class="card">
-    <h2 class="glitch" data-text="Adopt Me">Adopt Me</h2>
+    <div class="card-icon">🏠</div>
+    <h2>Adopt Me</h2>
+    <p class="card-description">Premium script with exclusive features and smooth performance optimization</p>
     <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/AdoptMe'))()`, this)">Copy Script</button>
   </div>
+  
   <div class="card">
-    <h2 class="glitch" data-text="Plants Vs Brainrots">Plants Vs Brainrots</h2>
+    <div class="card-icon">🌱</div>
+    <h2>Plants Vs Brainrots</h2>
+    <p class="card-description">Ultimate gaming script with advanced controls and customization options</p>
     <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/PlantsVsBrainrot'))()`, this)">Copy Script</button>
   </div>
 </div>
 
-<script>
-let isNotificationVisible = false;
+<div class="footer">
+  <p>&copy; 2025 Ankazcx Script Hub. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Documentation</a>
+    <a href="#">Discord</a>
+    <a href="#">Youtube</a>
+  </div>
+</div>
 
-// 页面加载时，为所有 .glitch 元素设置 data-text 属性
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.glitch').forEach(el => {
-    el.setAttribute('data-text', el.textContent);
-  });
-});
+<script>
+// Create floating particles
+function createParticles() {
+  for (let i = 0; i < 20; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 15 + 's';
+    particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    document.body.appendChild(particle);
+  }
+}
+
+createParticles();
+
+let isNotificationVisible = false;
 
 function copyToClipboard(text, button) {
   if (isNotificationVisible) return;
 
   navigator.clipboard.writeText(text).then(function () {
-    // 移除原有的卡片缩放，因为新的:active效果更佳
-    // const card = button.closest('.card');
-    // card.style.transform = 'scale(1.12)';
-    // setTimeout(() => { card.style.transform = ''; }, 150);
+    // Button success animation
+    button.classList.add('success');
+    setTimeout(() => { 
+      button.classList.remove('success'); 
+    }, 600);
 
-    // 按钮的绿色辉光反馈
-    button.classList.add('green-glow');
-    setTimeout(() => {
-      button.classList.remove('green-glow');
-    }, 800); // 延长辉光时间
+    // Card scale animation
+    const card = button.closest('.card');
+    card.style.transform = 'translateY(-10px) scale(1.05)';
+    setTimeout(() => { 
+      card.style.transform = ''; 
+    }, 300);
 
-    // 显示通知
+    // Show notification
     const notification = document.getElementById('notification');
     isNotificationVisible = true;
     notification.classList.add('show');
+    
     setTimeout(() => {
       notification.classList.remove('show');
-      // 等待通知完全消失后再允许下一次点击
       setTimeout(() => {
         isNotificationVisible = false;
-      }, 500); 
-    }, 1200); // 延长通知显示时间
+      }, 500);
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy:', err);
   });
 }
+
+// Add mouse tracking glow effect
+document.addEventListener('mousemove', (e) => {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+      card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 107, 107, 0.15), rgba(20, 20, 20, 0.7))`;
+    } else {
+      card.style.background = 'rgba(20, 20, 20, 0.7)';
+    }
+  });
+});
 </script>
 
 </body>
