@@ -10,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Orbitron', sans-serif;
-  background: linear-gradient(to bottom right, #000000, #8B0000);
+  background: radial-gradient(circle at top, #1a0000, #000000 60%);
   color: #fff;
   min-height: 100vh;
   display: flex;
@@ -20,22 +20,37 @@ body {
   overflow-x: hidden;
 }
 
+/* Glow grid background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(255,0,0,0.08) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,0,0,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .notification {
   position: fixed;
   top: -60px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 100, 0, 0.85);
-  color: #00ff88;
-  padding: 12px 28px;
-  border-radius: 8px;
-  box-shadow: 0 0 18px #00ff88, 0 0 6px #00ff88;
-  font-size: 1em;
+  background-color: rgba(0, 180, 90, 0.9);
+  color: #00ffae;
+  padding: 14px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 25px #00ffae, 0 0 10px #00ffae;
+  font-size: 1.1em;
   white-space: nowrap;
   opacity: 0;
-  transition: top 0.4s ease, opacity 0.4s ease;
+  transition: top 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
   z-index: 9999;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
 }
 
 .notification.show {
@@ -47,89 +62,74 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 25px;
+  gap: 32px;
   width: 100%;
-  max-width: 400px;
-  padding: 30px 10px;
+  max-width: 420px;
+  padding: 40px 10px;
   box-sizing: border-box;
 }
 
 .card {
-  background-color: rgba(0, 0, 0, 0.55);
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 18px;
+  padding: 28px 22px;
   width: 100%;
-  max-width: 320px;
-  padding: 25px 20px;
+  max-width: 360px;
   text-align: center;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: float 4s ease-in-out infinite;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.35), inset 0 0 12px rgba(255, 0, 0, 0.25);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: float 5s ease-in-out infinite;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 35px rgba(255, 0, 0, 0.55), inset 0 0 18px rgba(255, 0, 0, 0.4);
 }
 
 .card h2 {
-  font-size: 1.7em;
-  margin-bottom: 20px;
+  font-size: 1.9em;
+  margin-bottom: 22px;
   color: #ffffff;
-  text-shadow: 0 0 16px rgba(255, 255, 255, 1),
-               0 0 28px rgba(255, 255, 255, 0.95);
+  text-shadow: 0 0 22px rgba(255, 255, 255, 1), 0 0 36px rgba(255, 255, 255, 0.95);
 }
 
 .card button {
-  background-color: #555555;
-  color: #ffffff;
+  background: linear-gradient(to right, #660000, #990000);
+  color: #fff;
   border: none;
-  padding: 14px 0;
+  padding: 16px 0;
   width: 100%;
-  border-radius: 12px;
-  font-size: 1.15em;
+  border-radius: 14px;
+  font-size: 1.2em;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, color 0.15s ease, text-shadow 0.2s ease;
-  text-shadow: 0 0 12px #ffffff, 0 0 20px #ffffff, 0 0 28px #ffffff;
+  transition: background 0.25s ease, transform 0.2s ease, text-shadow 0.25s ease;
+  text-shadow: 0 0 14px #ffffff, 0 0 22px #ffffff;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.35);
+}
+
+.card button:hover {
+  background: linear-gradient(to right, #990000, #cc0000);
+  transform: scale(1.05);
 }
 
 .card button.green-glow {
-  color: #00ff88 !important;
-  text-shadow: 0 0 20px #00ff88, 0 0 30px #00ff88, 0 0 40px #00ff88;
-}
-
-.card button:active {
-  transform: scale(1.08);
+  color: #00ffae !important;
+  text-shadow: 0 0 24px #00ffae, 0 0 38px #00ffae, 0 0 55px #00ffae;
+  box-shadow: 0 0 25px #00ffae;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-6px) translateX(-3px); }
-  50% { transform: translateY(4px) translateX(2px); }
-  75% { transform: translateY(-2px) translateX(1px); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
 @media (max-width: 700px) {
-  .container {
-    max-width: 95%;
-    gap: 20px;
-    padding: 20px 5px;
-  }
-  .card h2 {
-    font-size: 1.5em;
-  }
-  .card button {
-    font-size: 1.05em;
-  }
-}
-
-@media (min-aspect-ratio: 16/9) {
-  .container {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .card {
-    max-width: 320px;
-  }
+  .container { max-width: 95%; }
+  .card h2 { font-size: 1.6em; }
+  .card button { font-size: 1.05em; }
 }
 </style>
 </head>
@@ -164,7 +164,7 @@ function copyToClipboard(text, button) {
     setTimeout(() => { card.style.transform = ''; }, 150);
 
     button.classList.add('green-glow');
-    setTimeout(() => { button.classList.remove('green-glow'); }, 600);
+    setTimeout(() => { button.classList.remove('green-glow'); }, 700);
 
     const notification = document.getElementById('notification');
     isNotificationVisible = true;
@@ -172,7 +172,7 @@ function copyToClipboard(text, button) {
     setTimeout(() => {
       notification.classList.remove('show');
       isNotificationVisible = false;
-    }, 1000);
+    }, 1200);
   });
 }
 </script>
