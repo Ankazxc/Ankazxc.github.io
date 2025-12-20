@@ -345,27 +345,73 @@ body {
 }
 
 @media (max-width: 768px) {
+  .header {
+    padding: 40px 15px 30px;
+  }
+
   .logo {
     font-size: 2em;
+  }
+
+  .tagline {
+    font-size: 0.85em;
+    letter-spacing: 1px;
   }
   
   .container {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 20px 15px 60px;
+    gap: 15px;
+    padding: 20px 15px 50px;
   }
   
   .card {
-    padding: 30px 20px;
+    padding: 25px 20px;
+    border-radius: 18px;
+  }
+
+  .card-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    font-size: 2em;
+    border-radius: 15px;
   }
   
   .card h2 {
-    font-size: 1.5em;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+  }
+
+  .card-description {
+    font-size: 0.85em;
+    margin-bottom: 20px;
+    line-height: 1.5;
   }
   
   .card button {
-    padding: 14px 30px;
-    font-size: 1em;
+    padding: 14px 28px;
+    font-size: 0.95em;
+    letter-spacing: 1px;
+  }
+
+  .card button:hover {
+    letter-spacing: 2px;
+  }
+
+  .notification {
+    padding: 12px 24px;
+    font-size: 0.9em;
+    max-width: 90%;
+  }
+
+  .footer {
+    padding: 30px 15px;
+    font-size: 0.8em;
+  }
+
+  .footer-links a {
+    margin: 0 10px;
+    font-size: 0.9em;
   }
 }
 
@@ -398,25 +444,31 @@ body {
 
 <div class="container">
   <div class="card">
-    <div class="card-icon">🧠</div>
-    <h2>Steal A Brainrot</h2>
-    <p class="card-description">A comprehensive Script featuring a built-in Spawner, Instant-Steal functionality, and fully Customizable Brainrot controls — all designed for seamless integration and professional gameplay use.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/StealABrainrot'))()`, this)">Copy Script</button>
+    <div class="card-icon">🌱</div>
+    <h2>Grow a Garden</h2>
+    <p class="card-description">Grow a Garden Script offers true Server-Side Pet, Seed, and Fruit Spawning with Real In-game Effects.It includes a Powerful Token Spawner that Generates legitimate Tokens.Use them to buy any pet you want and progress instantly.</p>
+    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/GrowAGarden'))()`, this)">Copy Script</button>
+  </div>
+
+  <div class="card">
+    <div class="card-icon">🔪</div>
+    <h2>Murder Mystery 2</h2>
+    <p class="card-description">Features a Powerful Spawner and advanced Auto Farm for Coins and XP, offering fast, Reliable Automation to dominate Murder Mystery 2 with ease.</p>
+    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/MurderMystery'))()`, this)">Copy Script</button>
   </div>
   
   <div class="card">
     <div class="card-icon">🐉</div>
     <h2>Adopt Me</h2>
-    <p class="card-description">Spawn Pets and Cash instantly in Adopt Me!
-Keyless, Fast, and Undetected — get Rare pets and extra Cash!</p>
+    <p class="card-description">Spawn Pets and Cash instantly in Adopt Me! Keyless, Fast, and Undetected — get Rare pets and extra Cash!</p>
     <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/AdoptMe'))()`, this)">Copy Script</button>
   </div>
 
-<div class="card">
-    <div class="card-icon">🔪</div>
-    <h2>Murder Mystery 2</h2>
-    <p class="card-description">Features a Powerful Spawner and advanced Auto Farm for Coins and XP, offering fast, Reliable Automation to dominate Murder Mystery 2 with ease.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/MurderMystery'))()`, this)">Copy Script</button>
+  <div class="card">
+    <div class="card-icon">🧠</div>
+    <h2>Steal A Brainrot</h2>
+    <p class="card-description">A comprehensive Script featuring a built-in Spawner, Instant-Steal functionality, and fully Customizable Brainrot controls — all designed for seamless integration and professional gameplay use.</p>
+    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/StealABrainrot'))()`, this)">Copy Script</button>
   </div>
 </div>
 
